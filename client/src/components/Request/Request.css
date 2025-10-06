@@ -1,0 +1,36 @@
+.request {
+	padding-bottom: 150px;
+}
+
+.request__inner {
+	background-image: url(../../assets/images/request/request.jpg);
+	background-image: image-set('../../assets/images/request/request.avif' type('image/avif'),
+			'../../assets/images/request/request.webp' type('image/webp'),
+			'../../assets/images/request/request.jpg' type('image/jpeg'));
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	color: #f5f5f5;
+	padding: 184px 0;
+
+
+
+}
+
+
+@media (max-width: 1300px) {
+	.request {
+		display: block;
+
+	}
+}
+
+@media (max-width: 740px) {
+	.request {
+		padding-bottom: 50px;
+	}
+
+	.request__inner {
+		padding: 85px 0;
+	}
+}

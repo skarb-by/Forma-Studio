@@ -1,0 +1,22 @@
+.footer__contacts {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	font-size: 14px;
+	font-weight: 300;
+	line-height: 1.16;
+}
+
+.footer__contacts-link {
+	display: flex;
+	gap: 10px;
+}
+
+.footer__contacts-time {
+	padding-left: 25px;
+}
+
+
+.footer__contacts-map {
+	align-self: start;
+}

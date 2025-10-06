@@ -1,0 +1,21 @@
+.footer__nav {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	text-transform: uppercase;
+	font-weight: 300;
+}
+
+.footer_nav-link {
+	transition: text-shadow 0.5s ease;
+}
+
+.footer_nav-link:hover {
+	text-shadow:
+		0 0 5px #ffffff,
+		0 0 10px #ffffff,
+		0 0 20px #ffffff,
+		0 0 30px #ffffff,
+		0 0 40px #ffffff;
+	color: #ffffff;
+}

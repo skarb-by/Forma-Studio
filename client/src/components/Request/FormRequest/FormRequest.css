@@ -1,0 +1,150 @@
+.request__inner-form {
+	background-color: rgb(23, 23, 23, 0.85);
+	max-width: 1000px;
+	padding: 75px 117px;
+	margin: 0 auto;
+
+
+}
+
+.request__title {
+	text-transform: uppercase;
+	margin-bottom: 55px;
+	font-weight: 300;
+	font-size: 42px;
+	line-height: 1.16;
+	color: #f5f5f5;
+}
+
+.request__form {
+	display: flex;
+	height: 60px;
+}
+
+.request__form-input {
+	display: inline-block;
+	color: #2b2b2b;
+	background-color: #d9d9d9;
+	padding: 20px;
+	border: none;
+	font-size: 18px;
+	font-weight: 100;
+	line-height: 1.16;
+	width: 100%;
+	display: block;
+	transition: all 0.3s ease;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.request__form-input:focus {
+	outline: none;
+
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.request__form-input::placeholder {
+	color: #aaa;
+	font-weight: 300;
+	letter-spacing: 1px;
+}
+
+
+
+.request__from-btn {
+	display: inline-block;
+	width: 360px;
+	text-transform: uppercase;
+	border: none;
+	padding: 20px 50px;
+	font-size: 18px;
+	line-height: 1.16;
+	color: #2b2b2b;
+	font-weight: 300;
+	background-color: #f5f5f5;
+	cursor: pointer;
+	transition: all 0.9s ease;
+}
+
+.request__from-btn:hover {
+	background-color: #2b2b2b;
+	color: #ffffff;
+	box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+}
+
+
+
+
+@media (max-width: 1050px) {
+	.request__from-btn {
+		font-size: 16px;
+		padding: 20px 20px;
+	}
+}
+
+
+
+@media (max-width: 740px) {
+	.request__inner-form {
+		padding: 50px 10px;
+		padding-bottom: 100px;
+	}
+
+	.request__title {
+		margin-bottom: 20px;
+		font-size: 28px;
+
+	}
+
+	.request__form {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.request__from-btn {
+		width: 40%;
+	}
+
+
+}
+
+@media (max-width: 610px) {
+	.request__title {
+		font-size: 20px;
+	}
+
+	.request__form-input {
+		padding: 15px 5px;
+	}
+
+	.request__from-btn {
+		padding: 15px 10px;
+	}
+
+	.request__inner-form {
+
+		padding-bottom: 75px;
+	}
+
+}
+
+
+@media (max-width: 500px) {
+	.request__form-input {
+		padding: 10px 5px;
+		font-size: 15px;
+	}
+
+	.request__inner-form {
+
+		padding-bottom: 45px;
+	}
+
+	.request__from-btn {
+		padding: 10px 1px;
+		font-size: 12px;
+		width: 45%;
+	}
+
+
+}

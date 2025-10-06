@@ -1,0 +1,153 @@
+.projects__slider {
+
+	padding-bottom: 50px;
+	overflow: visible;
+}
+
+.projects__item {
+	padding: 20px;
+	border: 1px solid #d9d9d9;
+	max-width: 560px;
+	box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+	transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s ease;
+}
+
+.projects__item:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+}
+
+.projects__item img {
+	width: 100%;
+	border-radius: 16px;
+	margin-bottom: 40px;
+	object-fit: cover;
+	transition: transform 0.6s ease;
+}
+
+.projects__item:hover img {
+	transform: scale(1.05);
+}
+
+.projects__item-title {
+	text-transform: uppercase;
+	font-weight: 300;
+	font-size: 28px;
+	line-height: 1.16;
+	margin-bottom: 10px;
+}
+
+.projects__item-desct {
+	text-transform: uppercase;
+	font-weight: 300;
+	font-size: 18px;
+	line-height: 1.16;
+	margin-bottom: 30px;
+	white-space: nowrap;
+	/* одна строка */
+	overflow: hidden;
+	/* обрезать текст, выходящий за пределы */
+	text-overflow: ellipsis;
+}
+
+.projects__item-text {
+	display: -webkit-box;
+	/* включаем поддержку многоточия */
+	-webkit-line-clamp: 3;
+	/* показываем только 3 строки */
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	flex-grow: 1;
+	margin-bottom: 30px;
+}
+
+.projects__item-link {
+	display: inline-block;
+	text-transform: uppercase;
+	border: 1px solid #171717;
+	padding: 20px 100px;
+	font-size: 18px;
+	line-height: 1.16;
+	color: #2b2b2b;
+	font-weight: 300;
+	background-color: #ffffff;
+	cursor: pointer;
+	transition: all 0.9s ease;
+}
+
+.projects__item-link:hover {
+	background-color: #2b2b2b;
+	color: #ffffff;
+	box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+
+}
+
+.projects__arrow {
+	cursor: pointer;
+	position: absolute;
+	bottom: -5px;
+	left: 50%;
+
+}
+
+
+.projects__arrow-prev {
+	transform: translateX(-75px);
+
+}
+
+.projects__arrow-next {
+	transform: translateX(15px);
+}
+
+
+.swiper-button-disabled {
+
+	opacity: 0.2;
+	cursor: default;
+}
+
+@media (max-width: 740px) {
+	.projects__item {
+
+		padding: 10px;
+	}
+
+	.projects__item img {
+
+		margin-bottom: 20px;
+	}
+
+	.projects__item-desct {
+		margin-bottom: 10px;
+		font-size: 16px;
+	}
+
+	.projects__item-title {
+		font-size: 24px;
+	}
+
+	.projects__item-text {
+		margin-bottom: 15px;
+	}
+
+	.projects__item-link {
+		padding: 16px 75px;
+		font-size: 16px;
+	}
+
+}
+
+
+
+
+
+
+@media (max-width: 540px) {
+	.projects__item-link {
+		font-size: 16px;
+		padding: 15px 35px;
+	}
+
+}

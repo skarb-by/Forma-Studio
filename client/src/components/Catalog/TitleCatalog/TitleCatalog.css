@@ -1,0 +1,16 @@
+.catalog__title {
+	text-transform: uppercase;
+	margin-bottom: 55px;
+	font-weight: 300;
+	font-size: 42px;
+	line-height: 1.16;
+	max-width: 556px;
+}
+
+@media (max-width: 740px) {
+	.catalog__title {
+		margin-bottom: 20px;
+		font-size: 28px;
+
+	}
+}

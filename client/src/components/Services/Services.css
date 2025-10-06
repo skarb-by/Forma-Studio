@@ -1,0 +1,19 @@
+.services {
+	padding: 150px 0;
+	background-color: #171717;
+	color: #f5f5f5;
+}
+
+@media (max-width: 1300px) {
+	.services {
+		padding: 80px 0;
+
+	}
+}
+
+@media (max-width: 740px) {
+	.services {
+		padding: 50px 0;
+
+	}
+}
