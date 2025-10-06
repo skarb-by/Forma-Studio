@@ -4,20 +4,17 @@ const FormContentCatalog = () => {
 	const [email, setEmail] = useState('')
 	const [agree, setAgree] = useState(false)
 	const [loading, setLoading] = useState(false)
-
+	const API_URL = import.meta.env.VITE_API_URL
 	const sendEmail = async e => {
 		e.preventDefault()
 		setLoading(true)
 
 		try {
-			const res = await fetch(
-				`${process.env.REACT_APP_API_URL}/send-email-catalog`,
-				{
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ email }),
-				}
-			)
+			const res = await fetch(`${API_URL}/send-email-catalog`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email }),
+			})
 
 			const data = await res.json()
 
