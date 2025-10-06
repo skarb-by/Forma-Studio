@@ -9,7 +9,7 @@ const app = express()
 
 // Настройка CORS для фронтенда
 app.use(cors({
-	origin: 'https://forma-studio-frontend.vercel.app', // укажи URL фронтенда на Vercel
+	origin: 'https://forma-studio-six.vercel.app', // укажи URL фронтенда на Vercel
 }))
 app.use(express.json())
 
