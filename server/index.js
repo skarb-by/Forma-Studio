@@ -7,13 +7,37 @@ import dotenv from 'dotenv'
 dotenv.config()
 const app = express()
 
-// Настройка CORS для фронтенда
+// ================================
+// Настройка CORS
+// ================================
+const allowedOrigins = ['https://forma-studio-mu.vercel.app'] // укажи фронтенд URL без слэша
+
 app.use(cors({
-	origin: 'https://forma-studio-mu.vercel.app', // укажи URL фронтенда на Vercel
+	origin: function (origin, callback) {
+		if (!origin) return callback(null, true) // для Postman или серверных запросов
+		const cleanOrigin = origin.replace(/\/$/, '') // убираем слэш на конце
+		if (allowedOrigins.includes(cleanOrigin)) {
+			callback(null, true)
+		} else {
+			callback(new Error('CORS не разрешён для этого origin'))
+		}
+	},
+	methods: ['GET', 'POST', 'OPTIONS'],
+	allowedHeaders: ['Content-Type'],
+	credentials: true
 }))
+
+// Обработка preflight-запросов
+app.options('*', cors())
+
+// ================================
+// Парсер JSON
+// ================================
 app.use(express.json())
 
-// Создаём транспорт для Gmail
+// ================================
+// Настройка Nodemailer для Gmail
+// ================================
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
@@ -32,7 +56,9 @@ const sendMail = async ({ to, subject, text }) => {
 	})
 }
 
+// ================================
 // Endpoint: обычная заявка
+// ================================
 app.post('/send-email', async (req, res) => {
 	const { email } = req.body
 	if (!email) return res.status(400).json({ success: false, error: 'Email обязателен' })
@@ -50,7 +76,9 @@ app.post('/send-email', async (req, res) => {
 	}
 })
 
+// ================================
 // Endpoint: запрос на каталог
+// ================================
 app.post('/send-email-catalog', async (req, res) => {
 	const { email } = req.body
 	if (!email) return res.status(400).json({ success: false, error: 'Email обязателен' })
@@ -68,6 +96,8 @@ app.post('/send-email-catalog', async (req, res) => {
 	}
 })
 
+// ================================
 // Запуск сервера
+// ================================
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => console.log(`✅ Сервер запущен на http://localhost:${PORT}`))
