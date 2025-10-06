@@ -27,12 +27,7 @@ app.use(cors({
 	credentials: true
 }))
 
-// Обработка preflight-запросов
-app.options('*', cors())
-
-// ================================
-// Парсер JSON
-// ================================
+// express.json() после cors
 app.use(express.json())
 
 // ================================
@@ -94,6 +89,14 @@ app.post('/send-email-catalog', async (req, res) => {
 		console.error('Ошибка при отправке /send-email-catalog:', err)
 		res.status(500).json({ success: false, error: err.message })
 	}
+})
+
+// ================================
+// Логирование origin (для отладки CORS)
+// ================================
+app.use((req, res, next) => {
+	console.log('Origin запроса:', req.headers.origin)
+	next()
 })
 
 // ================================
