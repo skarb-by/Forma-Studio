@@ -1,26 +1,32 @@
+// server/index.js
 import express from 'express'
 import cors from 'cors'
+import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
-import { Resend } from 'resend'
 
 dotenv.config()
 const app = express()
 
-// Разрешаем запросы с твоего фронтенда
+// Настройка CORS для фронтенда
 app.use(cors({
-	origin: 'https://forma-studio-mu.vercel.app',
+	origin: 'https://forma-studio-mu.vercel.app/', // укажи URL фронтенда на Vercel
 }))
-
 app.use(express.json())
 
-// Инициализация Resend API
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Создаём транспорт для Gmail
+const transporter = nodemailer.createTransport({
+	service: 'gmail',
+	auth: {
+		user: process.env.MAIL_USER, // твоя почта
+		pass: process.env.MAIL_PASS, // app password
+	},
+})
 
-// Функция отправки письма
-const sendMail = async ({ subject, text }) => {
-	return resend.emails.send({
-		from: 'Forma Studio <noreply@formastudio.com>', // можно указать своё доменное имя
-		to: process.env.MAIL_TO, // получатель (твоя почта)
+// Общая функция отправки письма
+const sendMail = async ({ to, subject, text }) => {
+	return transporter.sendMail({
+		from: `"Forma Studio" <${process.env.MAIL_USER}>`,
+		to,
 		subject,
 		text,
 	})
@@ -33,6 +39,7 @@ app.post('/send-email', async (req, res) => {
 
 	try {
 		await sendMail({
+			to: process.env.MAIL_USER,
 			subject: 'Новая заявка с сайта',
 			text: `Новый подписчик: ${email}`,
 		})
@@ -50,6 +57,7 @@ app.post('/send-email-catalog', async (req, res) => {
 
 	try {
 		await sendMail({
+			to: process.env.MAIL_USER,
 			subject: 'Новый запрос на каталог',
 			text: `Новый запрос на каталог: ${email}`,
 		})
