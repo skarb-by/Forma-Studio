@@ -8,7 +8,7 @@ const app = express()
 
 // Разрешаем запросы с твоего фронтенда
 app.use(cors({
-	origin: 'https://forma-studio-six.vercel.app',
+	origin: 'https://forma-studio-mu.vercel.app',
 }))
 
 app.use(express.json())
