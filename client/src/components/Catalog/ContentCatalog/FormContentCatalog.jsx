@@ -10,11 +10,14 @@ const FormContentCatalog = () => {
 		setLoading(true)
 
 		try {
-			const res = await fetch('http://localhost:3001/send-email-catalog', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email }),
-			})
+			const res = await fetch(
+				`${process.env.REACT_APP_API_URL}/send-email-catalog`,
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ email }),
+				}
+			)
 
 			const data = await res.json()
 
@@ -22,7 +25,7 @@ const FormContentCatalog = () => {
 				setEmail('') // очистка поля после успешной отправки
 				setAgree(false) // сброс чекбокса
 			}
-			// ошибки не показываем
+			// ошибки игнорируем
 		} catch (err) {
 			console.error(err) // только в консоль
 		} finally {

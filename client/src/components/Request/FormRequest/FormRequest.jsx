@@ -10,7 +10,7 @@ const FormRequest = () => {
 		setLoading(true)
 
 		try {
-			const res = await fetch('http://localhost:3001/send-email', {
+			const res = await fetch(`${process.env.REACT_APP_API_URL}/send-email`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ email }),
@@ -24,7 +24,6 @@ const FormRequest = () => {
 			// при ошибке ничего не показываем
 		} catch (err) {
 			console.error(err)
-			// при сетевой ошибке ничего не показываем
 		} finally {
 			setLoading(false)
 		}
@@ -42,7 +41,7 @@ const FormRequest = () => {
 					onChange={e => setEmail(e.target.value)}
 					required
 				/>
-				<button className='request__from-btn' type='submit' disabled={loading}>
+				<button className='request__form-btn' type='submit' disabled={loading}>
 					{loading ? 'Sending...' : 'Submit'}
 				</button>
 			</form>

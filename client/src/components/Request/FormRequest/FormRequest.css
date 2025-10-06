@@ -50,7 +50,7 @@
 
 
 
-.request__from-btn {
+.request__form-btn {
 	display: inline-block;
 	width: 360px;
 	text-transform: uppercase;
@@ -65,7 +65,7 @@
 	transition: all 0.9s ease;
 }
 
-.request__from-btn:hover {
+.request__form-btn:hover {
 	background-color: #2b2b2b;
 	color: #ffffff;
 	box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);

@@ -1,3 +1,4 @@
+// server/index.js
 import express from 'express'
 import cors from 'cors'
 import nodemailer from 'nodemailer'
@@ -8,7 +9,7 @@ const app = express()
 
 // Настройка CORS для фронтенда
 app.use(cors({
-	origin: 'http://localhost:5173', // твой фронтенд, поменяй при необходимости
+	origin: 'https://forma-studio-frontend.vercel.app', // укажи URL фронтенда на Vercel
 }))
 app.use(express.json())
 
@@ -16,15 +17,15 @@ app.use(express.json())
 const transporter = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
-		user: process.env.MAIL_USER,
-		pass: process.env.MAIL_PASS,
+		user: process.env.MAIL_USER, // твоя почта
+		pass: process.env.MAIL_PASS, // app password
 	},
 })
 
 // Общая функция отправки письма
 const sendMail = async ({ to, subject, text }) => {
 	return transporter.sendMail({
-		from: `"Сайт" <${process.env.MAIL_USER}>`,
+		from: `"Forma Studio" <${process.env.MAIL_USER}>`,
 		to,
 		subject,
 		text,
