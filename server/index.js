@@ -1,50 +1,43 @@
-// server/index.js
 import express from 'express'
 import cors from 'cors'
-import nodemailer from 'nodemailer'
 import dotenv from 'dotenv'
+import { Resend } from 'resend'
 
 dotenv.config()
 const app = express()
 
 // ================================
-// Настройка CORS
+// CORS (совместим с Render + Vercel)
 // ================================
-const allowedOrigins = ['https://forma-studio-mu.vercel.app'] // укажи фронтенд URL без слэша
+const allowedOrigins = ['https://forma-studio-mu.vercel.app']
 
-app.use(cors({
-	origin: function (origin, callback) {
-		if (!origin) return callback(null, true) // для Postman или серверных запросов
-		const cleanOrigin = origin.replace(/\/$/, '') // убираем слэш на конце
-		if (allowedOrigins.includes(cleanOrigin)) {
-			callback(null, true)
-		} else {
-			callback(new Error('CORS не разрешён для этого origin'))
-		}
-	},
-	methods: ['GET', 'POST', 'OPTIONS'],
-	allowedHeaders: ['Content-Type'],
-	credentials: true
-}))
+app.use((req, res, next) => {
+	const origin = req.headers.origin
+	if (allowedOrigins.includes(origin)) {
+		res.header('Access-Control-Allow-Origin', origin)
+	}
+	res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+	res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+	res.header('Access-Control-Allow-Credentials', 'true')
 
-// express.json() после cors
+	if (req.method === 'OPTIONS') {
+		return res.sendStatus(204)
+	}
+
+	next()
+})
+
 app.use(express.json())
 
 // ================================
-// Настройка Nodemailer для Gmail
+// Настройка Resend
 // ================================
-const transporter = nodemailer.createTransport({
-	service: 'gmail',
-	auth: {
-		user: process.env.MAIL_USER, // твоя почта
-		pass: process.env.MAIL_PASS, // app password
-	},
-})
+const resend = new Resend(process.env.RESEND_API_KEY)
 
-// Общая функция отправки письма
+// Функция для отправки писем
 const sendMail = async ({ to, subject, text }) => {
-	return transporter.sendMail({
-		from: `"Forma Studio" <${process.env.MAIL_USER}>`,
+	return resend.emails.send({
+		from: 'Forma Studio <onboarding@resend.dev>', // Можно поменять, если добавишь свой домен
 		to,
 		subject,
 		text,
@@ -56,11 +49,13 @@ const sendMail = async ({ to, subject, text }) => {
 // ================================
 app.post('/send-email', async (req, res) => {
 	const { email } = req.body
-	if (!email) return res.status(400).json({ success: false, error: 'Email обязателен' })
+	if (!email) {
+		return res.status(400).json({ success: false, error: 'Email обязателен' })
+	}
 
 	try {
 		await sendMail({
-			to: process.env.MAIL_USER,
+			to: process.env.MAIL_TO,
 			subject: 'Новая заявка с сайта',
 			text: `Новый подписчик: ${email}`,
 		})
@@ -76,11 +71,13 @@ app.post('/send-email', async (req, res) => {
 // ================================
 app.post('/send-email-catalog', async (req, res) => {
 	const { email } = req.body
-	if (!email) return res.status(400).json({ success: false, error: 'Email обязателен' })
+	if (!email) {
+		return res.status(400).json({ success: false, error: 'Email обязателен' })
+	}
 
 	try {
 		await sendMail({
-			to: process.env.MAIL_USER,
+			to: process.env.MAIL_TO,
 			subject: 'Новый запрос на каталог',
 			text: `Новый запрос на каталог: ${email}`,
 		})
@@ -89,14 +86,6 @@ app.post('/send-email-catalog', async (req, res) => {
 		console.error('Ошибка при отправке /send-email-catalog:', err)
 		res.status(500).json({ success: false, error: err.message })
 	}
-})
-
-// ================================
-// Логирование origin (для отладки CORS)
-// ================================
-app.use((req, res, next) => {
-	console.log('Origin запроса:', req.headers.origin)
-	next()
 })
 
 // ================================
