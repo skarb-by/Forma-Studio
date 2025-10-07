@@ -7,7 +7,7 @@ dotenv.config()
 const app = express()
 
 // ================================
-// CORS (совместим с Render + Vercel)
+// CORS
 // ================================
 const allowedOrigins = ['https://forma-studio-mu.vercel.app']
 
@@ -23,7 +23,6 @@ app.use((req, res, next) => {
 	if (req.method === 'OPTIONS') {
 		return res.sendStatus(204)
 	}
-
 	next()
 })
 
@@ -34,13 +33,15 @@ app.use(express.json())
 // ================================
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-// Функция для отправки писем
-const sendMail = async ({ to, subject, text }) => {
+// ================================
+// Функция для отправки письма
+// ================================
+const sendMail = async ({ to, subject, html }) => {
 	return resend.emails.send({
-		from: 'Forma Studio <onboarding@resend.dev>', // Можно поменять, если добавишь свой домен
+		from: 'Forma Studio <onboarding@resend.dev>', // рабочий тестовый адрес
 		to,
 		subject,
-		text,
+		html,
 	})
 }
 
@@ -49,19 +50,23 @@ const sendMail = async ({ to, subject, text }) => {
 // ================================
 app.post('/send-email', async (req, res) => {
 	const { email } = req.body
-	if (!email) {
-		return res.status(400).json({ success: false, error: 'Email обязателен' })
-	}
+	if (!email) return res.status(400).json({ success: false, error: 'Email обязателен' })
 
 	try {
+		console.log('📨 Отправляем письмо через Resend на', process.env.MAIL_TO)
+
 		await sendMail({
-			to: process.env.MAIL_TO,
-			subject: 'Новая заявка с сайта',
-			text: `Новый подписчик: ${email}`,
+			to: process.env.MAIL_TO || 'studiof334@gmail.com',
+			subject: 'Новая заявка с сайта Forma Studio',
+			html: `
+        <h2>Новая заявка</h2>
+        <p><strong>Email подписчика:</strong> ${email}</p>
+      `,
 		})
+
 		res.status(200).json({ success: true })
 	} catch (err) {
-		console.error('Ошибка при отправке /send-email:', err)
+		console.error('❌ Ошибка при отправке /send-email:', err)
 		res.status(500).json({ success: false, error: err.message })
 	}
 })
@@ -71,19 +76,21 @@ app.post('/send-email', async (req, res) => {
 // ================================
 app.post('/send-email-catalog', async (req, res) => {
 	const { email } = req.body
-	if (!email) {
-		return res.status(400).json({ success: false, error: 'Email обязателен' })
-	}
+	if (!email) return res.status(400).json({ success: false, error: 'Email обязателен' })
 
 	try {
 		await sendMail({
-			to: process.env.MAIL_TO,
-			subject: 'Новый запрос на каталог',
-			text: `Новый запрос на каталог: ${email}`,
+			to: process.env.MAIL_TO || 'studiof334@gmail.com',
+			subject: 'Новый запрос на каталог Forma Studio',
+			html: `
+        <h2>Запрос на каталог</h2>
+        <p><strong>Email:</strong> ${email}</p>
+      `,
 		})
+
 		res.status(200).json({ success: true })
 	} catch (err) {
-		console.error('Ошибка при отправке /send-email-catalog:', err)
+		console.error('❌ Ошибка при отправке /send-email-catalog:', err)
 		res.status(500).json({ success: false, error: err.message })
 	}
 })
@@ -92,4 +99,4 @@ app.post('/send-email-catalog', async (req, res) => {
 // Запуск сервера
 // ================================
 const PORT = process.env.PORT || 3001
-app.listen(PORT, () => console.log(`✅ Сервер запущен на http://localhost:${PORT}`))
+app.listen(PORT, () => console.log(`✅ Сервер запущен на порт ${PORT}`))
